@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>My Telegram App</title>
+<title>Категории</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -13,63 +13,177 @@ font-family:Arial;
 background:#1f1f1f;
 color:white;
 text-align:center;
-padding:40px;
+padding:20px;
 }
 
-.card{
-background:#2b2b2b;
-padding:20px;
-border-radius:15px;
-margin:20px;
+h1{
+margin-bottom:30px;
 }
 
 button{
-padding:12px 20px;
-font-size:16px;
+width:90%;
+padding:15px;
+font-size:18px;
 border:none;
-border-radius:10px;
-background:#2AABEE;
+border-radius:12px;
+background:#2b2b2b;
 color:white;
-margin-top:10px;
+margin:8px;
+}
+
+button:hover{
+background:#3a3a3a;
+}
+
+.page{
+display:none;
+margin-top:20px;
+background:#2b2b2b;
+padding:20px;
+border-radius:15px;
+}
+
+.back{
+background:#2AABEE;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<h1>🚀 Моё Telegram приложение</h1>
+<h1>Категории</h1>
 
-<div class="card">
-<p id="user"></p>
+<button onclick="showPage('samsung')">💎 Samsung 💎</button>
+<button onclick="showPage('ipad')">🍎🍎 iPad 🍎🍎</button>
+<button onclick="showPage('watch')">⌚ Apple Watch ⌚</button>
+<button onclick="showPage('airpods')">🎧 Airpods 🎧</button>
+<button onclick="showPage('iphone')">🍎 iPhone 🍎</button>
+<button onclick="showPage('cables')">🔌 Кабели:СЗУ 🔌</button>
+<button onclick="showPage('honor')">📞 Honor:Honor Pad 📞</button>
+<button onclick="showPage('oneplus')">📱 OnePlus:OnePlus Watch 📱</button>
+<button onclick="showPage('pixel')">👾 Pixel 👾</button>
+<button onclick="showPage('dyson')">♥️ DYSON ♥️</button>
+<button onclick="showPage('console')">🎮 Игровые консоли 🎮</button>
+<button onclick="showPage('camera')">📹 Камеры 📹</button>
+<button onclick="showPage('garmin')">⌚⌚ GARMIN ⌚⌚</button>
+<button onclick="showPage('laptop')">💻 НОУТБУКИ</button>
+<button onclick="showPage('xiaomi')">❤️ Xiaomi ❤️</button>
+<button onclick="showPage('tablet')">📍 Планшеты 📍</button>
+<button onclick="showPage('speakers')">🔊 Колонки</button>
+
+
+<div id="samsung" class="page">
+<h2>💎 Samsung</h2>
+<p>Тут будут товары Samsung</p>
+<button class="back" onclick="goBack()">⬅ Назад</button>
 </div>
 
-<div class="card">
-<h3>Меню</h3>
-
-<button onclick="alert('Раздел профиль')">👤 Профиль</button>
-<br>
-<button onclick="alert('Раздел магазин')">🛒 Магазин</button>
-<br>
-<button onclick="alert('Раздел настройки')">⚙️ Настройки</button>
-
+<div id="ipad" class="page">
+<h2>🍎 iPad</h2>
+<p>Тут будут iPad</p>
+<button class="back" onclick="goBack()">⬅ Назад</button>
 </div>
+
+<div id="watch" class="page">
+<h2>⌚ Apple Watch</h2>
+<p>Тут будут Apple Watch</p>
+<button class="back" onclick="goBack()">⬅ Назад</button>
+</div>
+
+<div id="airpods" class="page">
+<h2>🎧 Airpods</h2>
+<p>Тут будут AirPods</p>
+<button class="back" onclick="goBack()">⬅ Назад</button>
+</div>
+
+<div id="iphone" class="page">
+<h2>🍎 iPhone</h2>
+<p>Тут будут iPhone</p>
+<button class="back" onclick="goBack()">⬅ Назад</button>
+</div>
+
+<div id="cables" class="page">
+<h2>🔌 Кабели и зарядки</h2>
+<button class="back" onclick="goBack()">⬅ Назад</button>
+</div>
+
+<div id="honor" class="page">
+<h2>📞 Honor / Honor Pad</h2>
+<button class="back" onclick="goBack()">⬅ Назад</button>
+</div>
+
+<div id="oneplus" class="page">
+<h2>📱 OnePlus / OnePlus Watch</h2>
+<button class="back" onclick="goBack()">⬅ Назад</button>
+</div>
+
+<div id="pixel" class="page">
+<h2>👾 Pixel</h2>
+<button class="back" onclick="goBack()">⬅ Назад</button>
+</div>
+
+<div id="dyson" class="page">
+<h2>♥️ DYSON</h2>
+<button class="back" onclick="goBack()">⬅ Назад</button>
+</div>
+
+<div id="console" class="page">
+<h2>🎮 Игровые консоли</h2>
+<button class="back" onclick="goBack()">⬅ Назад</button>
+</div>
+
+<div id="camera" class="page">
+<h2>📹 Камеры</h2>
+<button class="back" onclick="goBack()">⬅ Назад</button>
+</div>
+
+<div id="garmin" class="page">
+<h2>⌚ GARMIN</h2>
+<button class="back" onclick="goBack()">⬅ Назад</button>
+</div>
+
+<div id="laptop" class="page">
+<h2>💻 Ноутбуки</h2>
+<button class="back" onclick="goBack()">⬅ Назад</button>
+</div>
+
+<div id="xiaomi" class="page">
+<h2>❤️ Xiaomi</h2>
+<button class="back" onclick="goBack()">⬅ Назад</button>
+</div>
+
+<div id="tablet" class="page">
+<h2>📍 Планшеты</h2>
+<button class="back" onclick="goBack()">⬅ Назад</button>
+</div>
+
+<div id="speakers" class="page">
+<h2>🔊 Колонки</h2>
+<button class="back" onclick="goBack()">⬅ Назад</button>
+</div>
+
 
 <script>
 
 let tg = window.Telegram.WebApp;
-
 tg.expand();
 
-let user = tg.initDataUnsafe.user;
+function showPage(page){
 
-if(user){
-document.getElementById("user").innerText =
-"Привет " + user.first_name;
+let pages = document.querySelectorAll(".page");
+pages.forEach(p => p.style.display = "none");document.getElementById(page).style.display = "block";
+
+}
+
+function goBack(){
+
+let pages = document.querySelectorAll(".page");
+pages.forEach(p => p.style.display = "none");
+
 }
 
 </script>
 
 </body>
-</html>
+</
