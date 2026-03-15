@@ -186,4 +186,42 @@ pages.forEach(p => p.style.display = "none");
 </script>
 
 </body>
+  <script>
+
+fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTzzPZY3u78bCNtoJwAfRnDFKsLT2RiD5F4xxTx1Rn1Ycfx_XaY81ffIX5jGJEWoek5zc8MjX0SmjCx/pubhtml")
+.then(res => res.text())
+.then(data => {
+
+let rows = data.split("\n");
+
+rows.slice(1).forEach(row => {
+
+let cols = row.split(",");
+
+let category = cols[0];
+let name = cols[1];
+let price = cols[2];
+let stock = cols[3];
+
+let product = document.createElement("div");
+
+product.innerHTML =
+"<h3>"+name+"</h3>"+
+"<p>Цена: "+price+"</p>"+
+"<p>Наличие: "+stock+"</p>";
+
+let container = document.getElementById(category);
+
+if(container){
+container.appendChild(product);
+}
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
 </
