@@ -4,49 +4,24 @@
 <meta charset="UTF-8">
 <title>Категории</title>
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-
 <style>
-
-body{
-font-family:Arial;
-background:#1f1f1f;
-color:white;
-text-align:center;
-padding:20px;
+body {
+font-family: Arial;
+background: #111;
+color: white;
+padding: 20px;
 }
 
-h1{
-margin-bottom:30px;
+h2 {
+margin-top: 30px;
 }
 
-button{
-width:90%;
-padding:15px;
-font-size:18px;
-border:none;
-border-radius:12px;
-background:#2b2b2b;
-color:white;
-margin:8px;
+.item {
+background: #222;
+padding: 10px;
+margin: 5px 0;
+border-radius: 10px;
 }
-
-button:hover{
-background:#3a3a3a;
-}
-
-.page{
-display:none;
-margin-top:20px;
-background:#2b2b2b;
-padding:20px;
-border-radius:15px;
-}
-
-.back{
-background:#2AABEE;
-}
-
 </style>
 </head>
 
@@ -54,174 +29,21 @@ background:#2AABEE;
 
 <h1>Категории</h1>
 
-<button onclick="showPage('samsung')">💎 Samsung 💎</button>
-<button onclick="showPage('ipad')">🍎🍎 iPad 🍎🍎</button>
-<button onclick="showPage('watch')">⌚ Apple Watch ⌚</button>
-<button onclick="showPage('airpods')">🎧 Airpods 🎧</button>
-<button onclick="showPage('iphone')">🍎 iPhone 🍎</button>
-<button onclick="showPage('cables')">🔌 Кабели:СЗУ 🔌</button>
-<button onclick="showPage('honor')">📞 Honor:Honor Pad 📞</button>
-<button onclick="showPage('oneplus')">📱 OnePlus:OnePlus Watch 📱</button>
-<button onclick="showPage('pixel')">👾 Pixel 👾</button>
-<button onclick="showPage('dyson')">♥️ DYSON ♥️</button>
-<button onclick="showPage('console')">🎮 Игровые консоли 🎮</button>
-<button onclick="showPage('camera')">📹 Камеры 📹</button>
-<button onclick="showPage('garmin')">⌚⌚ GARMIN ⌚⌚</button>
-<button onclick="showPage('laptop')">💻 НОУТБУКИ</button>
-<button onclick="showPage('xiaomi')">❤️ Xiaomi ❤️</button>
-<button onclick="showPage('tablet')">📍 Планшеты 📍</button>
-<button onclick="showPage('speakers')">🔊 Колонки</button>
+<h2>📱 Samsung</h2>
+<div class="item">Samsung S25 Ultra 12/512 — 90200р</div>
+<div class="item">Samsung S25 Ultra 12/256 — 79750р</div>
+<div class="item">Samsung A56 — 29480р</div>
 
-
-<div id="samsung" class="page">
-<h2>💎 Samsung</h2>
-<p>Тут будут товары Samsung</p>
-<button class="back" onclick="goBack()">⬅ Назад</button>
-</div>
-
-<div id="ipad" class="page">
-<h2>🍎 iPad</h2>
-<p>Тут будут iPad</p>
-<button class="back" onclick="goBack()">⬅ Назад</button>
-</div>
-
-<div id="watch" class="page">
-<h2>⌚ Apple Watch</h2>
-<p>Тут будут Apple Watch</p>
-<button class="back" onclick="goBack()">⬅ Назад</button>
-</div>
-
-<div id="airpods" class="page">
-<h2>🎧 Airpods</h2>
-<p>Тут будут AirPods</p>
-<button class="back" onclick="goBack()">⬅ Назад</button>
-</div>
-
-<div id="iphone" class="page">
 <h2>🍎 iPhone</h2>
-<p>Тут будут iPhone</p>
-<button class="back" onclick="goBack()">⬅ Назад</button>
-</div>
+<div class="item">iPhone 17 Pro Max 256 — 133650р</div>
+<div class="item">iPhone 16 Pro 128 — 81950р</div>
 
-<div id="cables" class="page">
-<h2>🔌 Кабели и зарядки</h2>
-<button class="back" onclick="goBack()">⬅ Назад</button>
-</div>
-
-<div id="honor" class="page">
-<h2>📞 Honor / Honor Pad</h2>
-<button class="back" onclick="goBack()">⬅ Назад</button>
-</div>
-
-<div id="oneplus" class="page">
-<h2>📱 OnePlus / OnePlus Watch</h2>
-<button class="back" onclick="goBack()">⬅ Назад</button>
-</div>
-
-<div id="pixel" class="page">
-<h2>👾 Pixel</h2>
-<button class="back" onclick="goBack()">⬅ Назад</button>
-</div>
-
-<div id="dyson" class="page">
-<h2>♥️ DYSON</h2>
-<button class="back" onclick="goBack()">⬅ Назад</button>
-</div>
-
-<div id="console" class="page">
-<h2>🎮 Игровые консоли</h2>
-<button class="back" onclick="goBack()">⬅ Назад</button>
-</div>
-
-<div id="camera" class="page">
-<h2>📹 Камеры</h2>
-<button class="back" onclick="goBack()">⬅ Назад</button>
-</div>
-
-<div id="garmin" class="page">
-<h2>⌚ GARMIN</h2>
-<button class="back" onclick="goBack()">⬅ Назад</button>
-</div>
-
-<div id="laptop" class="page">
 <h2>💻 Ноутбуки</h2>
-<button class="back" onclick="goBack()">⬅ Назад</button>
-</div>
+<div class="item">MacBook Air M4 — 86350р</div>
+<div class="item">Honor Magicbook X14 — 46750р</div>
 
-<div id="xiaomi" class="page">
-<h2>❤️ Xiaomi</h2>
-<button class="back" onclick="goBack()">⬅ Назад</button>
-</div>
-
-<div id="tablet" class="page">
-<h2>📍 Планшеты</h2>
-<button class="back" onclick="goBack()">⬅ Назад</button>
-</div>
-
-<div id="speakers" class="page">
-<h2>🔊 Колонки</h2>
-<button class="back" onclick="goBack()">⬅ Назад</button>
-</div>
-
-
-<script>
-
-let tg = window.Telegram.WebApp;
-tg.expand();
-
-function showPage(page){
-
-let pages = document.querySelectorAll(".page");
-pages.forEach(p => p.style.display = "none");document.getElementById(page).style.display = "block";
-
-}
-
-function goBack(){
-
-let pages = document.querySelectorAll(".page");
-pages.forEach(p => p.style.display = "none");
-
-}
-
-</script>
-
-</body>
-  <script>
-
-fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTzzPZY3u78bCNtoJwAfRnDFKsLT2RiD5F4xxTx1Rn1Ycfx_XaY81ffIX5jGJEWoek5zc8MjX0SmjCx/pubhtml")
-.then(res => res.text())
-.then(data => {
-
-let rows = data.split("\n");
-
-rows.slice(1).forEach(row => {
-
-let cols = row.split(",");
-
-let category = cols[0];
-let name = cols[1];
-let price = cols[2];
-let stock = cols[3];
-
-let product = document.createElement("div");
-
-product.innerHTML =
-"<h3>"+name+"</h3>"+
-"<p>Цена: "+price+"</p>"+
-"<p>Наличие: "+stock+"</p>";
-
-let container = document.getElementById(category);
-
-if(container){
-container.appendChild(product);
-}
-
-});
-
-});
-
-</script>
+<h2>🎮 Консоли</h2>
+<div class="item">PlayStation 5 — 60500р</div>
 
 </body>
 </html>
-</
