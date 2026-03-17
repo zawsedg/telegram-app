@@ -14,7 +14,7 @@ button { width:100%; padding:15px; margin:5px 0; border:none; border-radius:10px
 <script>
 let data = [];
 
-fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTzzPZY3u78bCNtoJwAfRnDFKsLT2RiD5F4xxTx1Rn1Ycfx_XaY81ffIX5jGJEWoek5zc8MjX0SmjCx/pubhtml")
+fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTzzPZY3u78bCNtoJwAfRnDFKsLT2RiD5F4xxTx1Rn1Ycfx_XaY81ffIX5jGJEWoek5zc8MjX0SmjCx/pub?output=csv")
 .then(res => res.text())
 .then(text => {
 
