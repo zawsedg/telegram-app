@@ -7,43 +7,121 @@
 <style>
 body {
 font-family: Arial;
-background: #111;
+background: #0f0f0f;
 color: white;
+margin: 0;
 padding: 20px;
 }
 
-h2 {
-margin-top: 30px;
+h1 {
+text-align: center;
+}
+
+.menu button {
+width: 100%;
+padding: 15px;
+margin: 5px 0;
+border: none;
+border-radius: 12px;
+background: #1f1f1f;
+color: white;
+font-size: 16px;
+}
+
+.category {
+display: none;
 }
 
 .item {
-background: #222;
+background: #1a1a1a;
 padding: 10px;
 margin: 5px 0;
 border-radius: 10px;
 }
+
+.back {
+margin-bottom: 10px;
+background: #333;
+padding: 10px;
+border-radius: 10px;
+display: inline-block;
+}
 </style>
+
+<script>
+function openCategory(id) {
+document.querySelector('.menu').style.display = 'none';
+document.getElementById(id).style.display = 'block';
+}
+
+function goBack() {
+document.querySelectorAll('.category').forEach(c => c.style.display = 'none');
+document.querySelector('.menu').style.display = 'block';
+}
+</script>
+
 </head>
 
 <body>
 
 <h1>Категории</h1>
 
-<h2>📱 Samsung</h2>
+<div class="menu">
+
+<button onclick="openCategory('iphone')">🍎 iPhone</button>
+<button onclick="openCategory('samsung')">📱 Samsung</button>
+<button onclick="openCategory('laptops')">💻 Ноутбуки</button>
+<button onclick="openCategory('dyson')">💨 Dyson</button>
+<button onclick="openCategory('consoles')">🎮 Консоли</button>
+
+</div>
+
+<!-- iPhone -->
+<div id="iphone" class="category">
+<div class="back" onclick="goBack()">⬅ Назад</div>
+
+<div class="item">iPhone 17 Pro Max 256 — 133650р</div>
+<div class="item">iPhone 17 Pro 256 — 118800р</div>
+<div class="item">iPhone 16 Pro 128 — 81950р</div>
+<div class="item">iPhone 15 128 — 60500р</div>
+
+</div>
+
+<!-- Samsung -->
+<div id="samsung" class="category">
+<div class="back" onclick="goBack()">⬅ Назад</div>
+
 <div class="item">Samsung S25 Ultra 12/512 — 90200р</div>
 <div class="item">Samsung S25 Ultra 12/256 — 79750р</div>
-<div class="item">Samsung A56 — 29480р</div>
+<div class="item">Samsung A56 8/256 — 29480р</div>
 
-<h2>🍎 iPhone</h2>
-<div class="item">iPhone 17 Pro Max 256 — 133650р</div>
-<div class="item">iPhone 16 Pro 128 — 81950р</div>
+</div>
 
-<h2>💻 Ноутбуки</h2>
+<!-- Ноутбуки -->
+<div id="laptops" class="category">
+<div class="back" onclick="goBack()">⬅ Назад</div>
+
 <div class="item">MacBook Air M4 — 86350р</div>
 <div class="item">Honor Magicbook X14 — 46750р</div>
 
-<h2>🎮 Консоли</h2>
+</div>
+
+<!-- Dyson -->
+<div id="dyson" class="category">
+<div class="back" onclick="goBack()">⬅ Назад</div>
+
+<div class="item">Dyson V7 Motorhead — 18150р</div>
+<div class="item">Dyson V15 Detect — 48400р</div>
+
+</div>
+
+<!-- Консоли -->
+<div id="consoles" class="category">
+<div class="back" onclick="goBack()">⬅ Назад</div>
+
 <div class="item">PlayStation 5 — 60500р</div>
+
+</div>
 
 </body>
 </html>
