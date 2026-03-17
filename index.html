@@ -5,58 +5,59 @@
 <title>Категории</title>
 
 <style>
-body {
-font-family: Arial;
-background: #0f0f0f;
-color: white;
-margin: 0;
-padding: 20px;
-}
-
-h1 {
-text-align: center;
-}
-
-.menu button {
-width: 100%;
-padding: 15px;
-margin: 5px 0;
-border: none;
-border-radius: 12px;
-background: #1f1f1f;
-color: white;
-font-size: 16px;
-}
-
-.category {
-display: none;
-}
-
-.item {
-background: #1a1a1a;
-padding: 10px;
-margin: 5px 0;
-border-radius: 10px;
-}
-
-.back {
-margin-bottom: 10px;
-background: #333;
-padding: 10px;
-border-radius: 10px;
-display: inline-block;
-}
+body { background:#0f0f0f; color:white; font-family:Arial; padding:20px; }
+button { width:100%; padding:15px; margin:5px 0; border:none; border-radius:10px; background:#1f1f1f; color:white; }
+.item { background:#1a1a1a; padding:10px; margin:5px 0; border-radius:10px; }
+.category { display:none; }
 </style>
 
 <script>
-function openCategory(id) {
-document.querySelector('.menu').style.display = 'none';
-document.getElementById(id).style.display = 'block';
+let data = [];
+
+fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTzzPZY3u78bCNtoJwAfRnDFKsLT2RiD5F4xxTx1Rn1Ycfx_XaY81ffIX5jGJEWoek5zc8MjX0SmjCx/pubhtml")
+.then(res => res.text())
+.then(text => {
+
+let rows = text.split("\n").slice(1);
+
+rows.forEach(row => {
+let cols = row.split(",");
+data.push({
+category: cols[0],
+name: cols[1],
+price: Math.round(cols[2]*1.10)
+});
+});
+
+showMenu();
+});
+
+function showMenu(){
+let categories = [...new Set(data.map(x=>x.category))];
+let html = "";
+
+categories.forEach(cat=>{
+html += `<button onclick="openCat('${cat}')">${cat}</button>`;
+});
+
+document.getElementById("menu").innerHTML = html;
 }
 
-function goBack() {
-document.querySelectorAll('.category').forEach(c => c.style.display = 'none');
-document.querySelector('.menu').style.display = 'block';
+function openCat(cat){
+let items = data.filter(x=>x.category==cat);
+let html = `<button onclick="back()">⬅ Назад</button>`;
+
+items.forEach(i=>{
+html += `<div class="item">${i.name} — ${i.price}р</div>`;
+});
+
+document.getElementById("content").innerHTML = html;
+document.getElementById("menu").style.display="none";
+}
+
+function back(){
+document.getElementById("menu").style.display="block";
+document.getElementById("content").innerHTML="";
 }
 </script>
 
@@ -66,62 +67,8 @@ document.querySelector('.menu').style.display = 'block';
 
 <h1>Категории</h1>
 
-<div class="menu">
-
-<button onclick="openCategory('iphone')">🍎 iPhone</button>
-<button onclick="openCategory('samsung')">📱 Samsung</button>
-<button onclick="openCategory('laptops')">💻 Ноутбуки</button>
-<button onclick="openCategory('dyson')">💨 Dyson</button>
-<button onclick="openCategory('consoles')">🎮 Консоли</button>
-
-</div>
-
-<!-- iPhone -->
-<div id="iphone" class="category">
-<div class="back" onclick="goBack()">⬅ Назад</div>
-
-<div class="item">iPhone 17 Pro Max 256 — 133650р</div>
-<div class="item">iPhone 17 Pro 256 — 118800р</div>
-<div class="item">iPhone 16 Pro 128 — 81950р</div>
-<div class="item">iPhone 15 128 — 60500р</div>
-
-</div>
-
-<!-- Samsung -->
-<div id="samsung" class="category">
-<div class="back" onclick="goBack()">⬅ Назад</div>
-
-<div class="item">Samsung S25 Ultra 12/512 — 90200р</div>
-<div class="item">Samsung S25 Ultra 12/256 — 79750р</div>
-<div class="item">Samsung A56 8/256 — 29480р</div>
-
-</div>
-
-<!-- Ноутбуки -->
-<div id="laptops" class="category">
-<div class="back" onclick="goBack()">⬅ Назад</div>
-
-<div class="item">MacBook Air M4 — 86350р</div>
-<div class="item">Honor Magicbook X14 — 46750р</div>
-
-</div>
-
-<!-- Dyson -->
-<div id="dyson" class="category">
-<div class="back" onclick="goBack()">⬅ Назад</div>
-
-<div class="item">Dyson V7 Motorhead — 18150р</div>
-<div class="item">Dyson V15 Detect — 48400р</div>
-
-</div>
-
-<!-- Консоли -->
-<div id="consoles" class="category">
-<div class="back" onclick="goBack()">⬅ Назад</div>
-
-<div class="item">PlayStation 5 — 60500р</div>
-
-</div>
+<div id="menu"></div>
+<div id="content"></div>
 
 </body>
 </html>
