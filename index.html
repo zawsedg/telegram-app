@@ -11,31 +11,11 @@ button { width:100%; padding:15px; margin:5px 0; border:none; border-radius:10px
 .category { display:none; }
 </style>
 <script>
-let data = [];
-
-fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTzzPZY3u78bCNtoJwAfRnDFKsLT2RiD5F4xxTx1Rn1Ycfx_XaY81ffIX5jGJEWoek5zc8MjX0SmjCxl/pub?output=csv
-?gid=0&single=true")
-.then(res => res.text())
-.then(text => {
-
-let rows = text.split("\n").slice(1);
-
-rows.forEach(row => {
-
-let cols = row.split(/,|;/);
-
-if(cols.length >= 3){
-data.push({
-category: cols[0].trim(),
-name: cols[1].trim(),
-price: Math.round(parseFloat(cols[2]) * 1.10)
-});
-}
-
-});
-
-showMenu();
-});
+let data = [
+{category:"Смартфоны", name:"iPhone 15", price:100000},
+{category:"Смартфоны", name:"Samsung S25", price:80000},
+{category:"Пылесосы", name:"Dyson V15", price:45000}
+];
 
 function showMenu(){
 let categories = [...new Set(data.map(x=>x.category))];
@@ -64,8 +44,9 @@ function back(){
 document.getElementById("menu").style.display="block";
 document.getElementById("content").innerHTML="";
 }
-</script>
 
+showMenu();
+</script>
 
 </head>
 
