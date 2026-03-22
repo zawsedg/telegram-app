@@ -39,22 +39,33 @@ border-bottom:1px solid #444;
 <script>
 let data = [];
 
-fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTzzPZY3u78bCNtoJwAfRnDFKsLT2RiD5F4xxTx1Rn1Ycfx_XaY81ffIX5jGJEWoek5zc8MjX0SmjCx/pub?gid=0&single=true&output=csv")
-  .then(res => res.text())
-  .then(text => {
-    let rows = text.trim().split("\n").slice(1); // убираем заголовок
-    rows.forEach(r => {
-      let [category, name, price] = r.split(",");
-      data.push({
-        category: category,
-        name: name,
-        price: parseInt(price)
-      });
-    });
-    showMenu(); // Важно: показываем меню только после загрузки данных
-  })
-  .catch(err => console.error("Ошибка загрузки таблицы:", err));
+// https://docs.google.com/spreadsheets/d/e/2PACX-1vTzzPZY3u78bCNtoJwAfRnDFKsLT2RiD5F4xxTx1Rn1Ycfx_XaY81ffIX5jGJEWoek5zc8MjX0SmjCx/pub?gid=0&single=true&output=csv
+async function loadData() {
+  try {
+    const res = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTzzPZY3u78bCNtoJwAfRnDFKsLT2RiD5F4xxTx1Rn1Ycfx_XaY81ffIX5jGJEWoek5zc8MjX0SmjCx/pub?gid=0&single=true&output=csv");
+    let text = await res.text();
+    let rows = text.trim().split("\n");
+    rows.shift(); // удаляем заголовок
 
+    rows.forEach(r => {
+      let cols = r.split(",");
+      if(cols.length >= 3) { // проверяем, что есть category, name, price
+        let [category, name, price] = cols;
+        data.push({
+          category: category.trim(),
+          name: name.trim(),
+          price: parseInt(price.trim()) || 0
+        });
+      }
+    });
+
+    showMenu(); // показываем меню только после загрузки данных
+  } catch (err) {
+    console.error("Ошибка загрузки таблицы:", err);
+  }
+}
+
+// Показываем категории
 function showMenu() {
   let categories = [...new Set(data.map(x => x.category))];
   let html = "";
@@ -64,8 +75,9 @@ function showMenu() {
   document.getElementById("menu").innerHTML = html;
 }
 
+// Открываем категорию
 function openCat(cat) {
-  let items = data.filter(x => x.category == cat);
+  let items = data.filter(x => x.category === cat);
   let html = `<button onclick="back()">⬅ Назад</button>`;
   items.forEach(i => {
     let finalPrice = i.price + 5000;
@@ -75,10 +87,14 @@ function openCat(cat) {
   document.getElementById("menu").style.display = "none";
 }
 
+// Назад к категориям
 function back() {
   document.getElementById("menu").style.display = "block";
   document.getElementById("content").innerHTML = "";
 }
+
+// Старт
+loadData();
 </script>
 
 </body>
