@@ -2,15 +2,43 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Категории</title>
+<title>Price</title>
 
 <style>
-body { background:#0f0f0f; color:white; font-family:Arial; padding:20px; }
-button { width:100%; padding:15px; margin:5px 0; border:none; border-radius:10px; background:#1f1f1f; color:white; }
-.item { background:#1a1a1a; padding:10px; margin:5px 0; border-radius:10px; }
-.category { display:none; }
+body{
+background:black;
+color:white;
+font-family:sans-serif;
+padding:20px;
+}
+button{
+display:block;
+width:100%;
+margin:10px 0;
+padding:15px;
+font-size:18px;
+border:none;
+border-radius:10px;
+background:#222;
+color:white;
+}
+.item{
+padding:10px;
+border-bottom:1px solid #444;
+}
 </style>
+
+</head>
+
+<body>
+
+<h2>Категории</h2>
+
+<div id="menu"></div>
+<div id="content"></div>
+
 <script>
+
 let data = [
 {category:"Смартфоны", name:"iPhone 15", price:100000},
 {category:"Смартфоны", name:"Samsung S25", price:80000},
@@ -46,16 +74,8 @@ document.getElementById("content").innerHTML="";
 }
 
 showMenu();
+
 </script>
-
-</head>
-
-<body>
-
-<h1>Категории</h1>
-
-<div id="menu"></div>
-<div id="content"></div>
 
 </body>
 </html>
