@@ -85,6 +85,15 @@ let html = `<button onclick="back()">⬅ Назад</button>`;
 
 items.forEach(i=>{
 let finalPrice = i.price + 5000;
+html += `<div class="item">${i.name} — ${finalPrice}р</div>`;
+});
+
+document.getElementById("content").innerHTML = html;
+document.getElementById("menu").style.display="none";
+}
+
+items.forEach(i=>{
+let finalPrice = i.price + 5000;
 
 html += `<div class="item">${i.name} — ${finalPrice}р</div>`; — ${i.price}р</div>`;
 });
