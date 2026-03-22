@@ -38,35 +38,23 @@ border-bottom:1px solid #444;
 <div id="content"></div>
 <script>
 
-let data = [
-{category:"СМАРТФОНЫ SAMSUNG", name:"Samsung Fold 7", price:115500},
-{category:"СМАРТФОНЫ SAMSUNG", name:"Samsung S25 Ultra", price:83000},
-{category:"СМАРТФОНЫ SAMSUNG", name:"Samsung A56", price:27000},
+let data = [];
 
-{category:"ЧАСЫ SAMSUNG", name:"Samsung Watch Ultra 8", price:25500},
-{category:"ЧАСЫ SAMSUNG", name:"Samsung Fit3", price:3200},
+fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTzzPZY3u78bCNtoJwAfRnDFKsLT2RiD5F4xxTx1Rn1Ycfx_XaY81ffIX5jGJEWoek5zc8MjX0SmjCx/pub?gid=0&single=true&output=csv")
+.then(res => res.text())
+.then(text => {
+let rows = text.split("\n").slice(1);
 
-{category:"НАУШНИКИ SAMSUNG", name:"Samsung Buds3 Pro", price:10500},
+rows.forEach(r=>{
+let [category, name, price] = r.split(",");
+data.push({
+category: category,
+name: name,
+price: parseInt(price)
+});
+});
 
-{category:"ПЛАНШЕТЫ SAMSUNG", name:"Samsung Tab S10 Plus", price:66500},
-
-{category:"MACBOOK", name:"MacBook Pro 14", price:153500},
-
-{category:"IPAD", name:"iPad Pro 13", price:103000},
-
-{category:"APPLE WATCH", name:"Apple Watch Ultra 3", price:60500},
-
-{category:"AIRPODS", name:"AirPods Pro 2", price:14500},
-
-{category:"АКСЕССУАРЫ APPLE", name:"Magic Mouse 3", price:8500},
-
-{category:"ДРУГИЕ СМАРТФОНЫ", name:"iPhone 17 Pro Max", price:121500},
-
-{category:"ПЫЛЕСОСЫ", name:"Dyson V15", price:49000},
-
-{category:"ИГРОВЫЕ КОНСОЛИ", name:"PS5 Slim", price:43500}
-];
-
+});
 function showMenu(){
 let categories = [...new Set(data.map(x=>x.category))];
 let html = "";
