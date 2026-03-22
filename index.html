@@ -4,69 +4,16 @@
 <meta charset="UTF-8">
 <title>SiriusTech</title>
 <style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #0b0f1a, #1c1f2a);
-  color: #fff;
-}
-header {
-  text-align: center;
-  padding: 30px 10px;
-  font-size: 40px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  color: #00f0ff;
-  text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
-}
-#menu {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
-  margin: 20px;
-}
-button {
-  padding: 15px 25px;
-  font-size: 18px;
-  border: none;
-  border-radius: 10px;
-  background: #222;
-  color: #fff;
-  cursor: pointer;
-  transition: 0.3s;
-  flex: 1 1 150px;
-  max-width: 200px;
-}
-button:hover {
-  background: #00f0ff;
-  color: #000;
-  transform: scale(1.05);
-}
-#content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  margin: 20px;
-}
-.item {
-  background: #111;
-  padding: 15px 20px;
-  border-radius: 10px;
-  width: 300px;
-  box-shadow: 0 0 10px #00f0ff33;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.inStock-yes { color: #00ff90; font-weight: bold; }
-.inStock-no { color: #ff4040; font-weight: bold; }
-.back-btn {
-  background: #444;
-  width: 100px;
-  margin-bottom: 10px;
-}
+body { margin:0; font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg,#0b0f1a,#1c1f2a); color:#fff; }
+header { text-align:center; padding:30px 10px; font-size:40px; font-weight:bold; color:#00f0ff; text-shadow:0 0 10px #00f0ff,0 0 20px #00f0ff; }
+#menu { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; margin:20px; }
+button { padding:15px 25px; font-size:18px; border:none; border-radius:10px; background:#222; color:#fff; cursor:pointer; transition:0.3s; flex:1 1 150px; max-width:200px; }
+button:hover { background:#00f0ff; color:#000; transform:scale(1.05); }
+#content { display:flex; flex-direction:column; align-items:center; gap:15px; margin:20px; }
+.item { background:#111; padding:15px 20px; border-radius:10px; width:300px; box-shadow:0 0 10px #00f0ff33; display:flex; justify-content:space-between; align-items:center; }
+.inStock-yes { color:#00ff90; font-weight:bold; }
+.inStock-no { color:#ff4040; font-weight:bold; }
+.back-btn { background:#444; width:100px; margin-bottom:10px; }
 </style>
 </head>
 <body>
@@ -79,6 +26,7 @@ button:hover {
 <script>
 let data = [];
 let currentCategory = null;
+let currentSubcategory = null;
 
 async function loadData() {
   try {
@@ -90,35 +38,54 @@ async function loadData() {
     rows.forEach(r => {
       if(!r) return;
       const cols = r.split(",");
-      if(cols.length < 4) return; // добавляем колонку inStock
+      if(cols.length < 5) return;
       const category = cols[0].trim();
-      const name = cols[1].trim();
-      const price = parseFloat(cols[2].trim()) || 0;
-      const inStock = cols[3].trim().toLowerCase() === "да" ? "yes" : "no";
-      newData.push({ category, name, price, inStock });
+      const subcategory = cols[1].trim();
+      const name = cols[2].trim();
+      const price = parseFloat(cols[3].trim()) || 0;
+      const inStock = cols[4].trim().toLowerCase() === "да" ? "yes" : "no";
+      newData.push({ category, subcategory, name, price, inStock });
     });
 
     data = newData;
-    showMenu();
-    if(currentCategory) openCat(currentCategory);
+    if(currentCategory === null) showCategories();
+    else if(currentSubcategory === null) showSubcategories(currentCategory);
+    else showProducts(currentCategory, currentSubcategory);
   } catch(e) {
     console.error("Ошибка загрузки таблицы:", e);
   }
 }
 
-function showMenu() {
-  const categories = [...new Set(data.map(x => x.category))];
+function showCategories() {
+  currentCategory = null;
+  currentSubcategory = null;
+  const categories = [...new Set(data.map(x=>x.category))];
   let html = "";
   categories.forEach(cat => {
-    html += `<button onclick="openCat('${cat}')">${cat}</button>`;
+    html += `<button onclick="showSubcategories('${cat}')">${cat}</button>`;
   });
   document.getElementById("menu").innerHTML = html;
+  document.getElementById("menu").style.display = "flex";
+  document.getElementById("content").innerHTML = "";
 }
 
-function openCat(cat) {
+function showSubcategories(cat) {
   currentCategory = cat;
-  const items = data.filter(x => x.category === cat);
-  let html = `<button class="back-btn" onclick="back()">⬅ Назад</button>`;
+  currentSubcategory = null;
+  const subcategories = [...new Set(data.filter(x=>x.category===cat).map(x=>x.subcategory))];
+  let html = `<button class="back-btn" onclick="showCategories()">⬅ Назад</button>`;
+  subcategories.forEach(sub => {
+    html += `<button onclick="showProducts('${cat}','${sub}')">${sub}</button>`;
+  });
+  document.getElementById("menu").innerHTML = html;
+  document.getElementById("menu").style.display = "flex";
+  document.getElementById("content").innerHTML = "";
+}
+
+function showProducts(cat, sub) {
+  currentSubcategory = sub;
+  const items = data.filter(x=>x.category===cat && x.subcategory===sub);
+  let html = `<button class="back-btn" onclick="showSubcategories('${cat}')">⬅ Назад</button>`;
   items.forEach(i => {
     const finalPrice = Math.round(i.price * 1.10);
     const stockClass = i.inStock === "yes" ? "inStock-yes" : "inStock-no";
@@ -126,16 +93,10 @@ function openCat(cat) {
     html += `<div class="item"><span>${i.name} — ${finalPrice}р</span><span class="${stockClass}">${stockText}</span></div>`;
   });
   document.getElementById("content").innerHTML = html;
-  document.getElementById("menu").style.display = "none";
+16:09
+document.getElementById("menu").style.display = "none";
 }
 
-function back() {
-  currentCategory = null;
-  document.getElementById("menu").style.display = "flex";
-  document.getElementById("content").innerHTML = "";
-}
-
-// Старт
 loadData();
 setInterval(loadData, 50000);
 </script>
