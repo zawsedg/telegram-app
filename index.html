@@ -16,7 +16,7 @@ button { display:block; width:100%; margin:10px 0; padding:15px; font-size:18px;
 
 <script>
 let data = []; // глобальная переменная
-let currentCategory = null; // текущая категория, чтобы обновлять её при автообновлении
+let currentCategory = null; // текущая категория
 
 async function loadData() {
   try {
@@ -31,13 +31,13 @@ async function loadData() {
       if(cols.length < 3) return;
       const category = cols[0].trim();
       const name = cols[1].trim();
-      const price = parseInt(cols[2].trim()) || 0;
+      const price = parseFloat(cols[2].trim()) || 0; // используем parseFloat для дробных цен
       newData.push({ category, name, price });
     });
 
-    data = newData; // обновляем глобальные данные
+    data = newData;
     showMenu();
-    if(currentCategory) openCat(currentCategory); // если была открыта категория, обновляем её
+    if(currentCategory) openCat(currentCategory); // обновляем текущую категорию
   } catch(e) {
     console.error("Ошибка загрузки таблицы:", e);
   }
@@ -53,11 +53,11 @@ function showMenu() {
 }
 
 function openCat(cat) {
-  currentCategory = cat; // сохраняем выбранную категорию
+  currentCategory = cat;
   const items = data.filter(x => x.category === cat);
   let html = `<button onclick="back()">⬅ Назад</button>`;
   items.forEach(i => {
-    const finalPrice = i.price + 5000;
+    const finalPrice = Math.round(i.price * 1.10); // прибавляем 10% и округляем до целого
     html += `<div class="item">${i.name} — ${finalPrice}р</div>`;
   });
   document.getElementById("content").innerHTML = html;
