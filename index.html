@@ -84,7 +84,9 @@ let items = data.filter(x=>x.category==cat);
 let html = `<button onclick="back()">⬅ Назад</button>`;
 
 items.forEach(i=>{
-html += `<div class="item">${i.name} — ${i.price}р</div>`;
+let finalPrice = i.price + 5000;
+
+html += `<div class="item">${i.name} — ${finalPrice}р</div>`; — ${i.price}р</div>`;
 });
 
 document.getElementById("content").innerHTML = html;
