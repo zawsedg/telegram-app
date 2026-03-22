@@ -36,24 +36,24 @@ border-bottom:1px solid #444;
 
 <div id="menu"></div>
 <div id="content"></div>
+
 <script>
 
 let data = [
+{category:"СМАРТФОНЫ SAMSUNG", name:"Samsung Fold 7", price:115500},
+{category:"СМАРТФОНЫ SAMSUNG", name:"Samsung S25 Ultra", price:83000},
+{category:"СМАРТФОНЫ SAMSUNG", name:"Samsung A56", price:27000},
 
-{category:"СМАРТФОНЫ SAMSUNG", name:"Samsung Fold 7 12/512 Shadow", price:115500},
-{category:"СМАРТФОНЫ SAMSUNG", name:"Samsung S25 Ultra 12/512 Silverblue", price:83000},
-{category:"СМАРТФОНЫ SAMSUNG", name:"Samsung A56 8/256 Black", price:27000},
-
-{category:"ЧАСЫ SAMSUNG", name:"Samsung Watch Ultra 8 47mm", price:25500},
-{category:"ЧАСЫ SAMSUNG", name:"Samsung Galaxy Fit3", price:3200},
+{category:"ЧАСЫ SAMSUNG", name:"Samsung Watch Ultra 8", price:25500},
+{category:"ЧАСЫ SAMSUNG", name:"Samsung Fit3", price:3200},
 
 {category:"НАУШНИКИ SAMSUNG", name:"Samsung Buds3 Pro", price:10500},
 
-{category:"ПЛАНШЕТЫ SAMSUNG", name:"Samsung Tab S10 Plus 12/512", price:66500},
+{category:"ПЛАНШЕТЫ SAMSUNG", name:"Samsung Tab S10 Plus", price:66500},
 
-{category:"MACBOOK", name:"MacBook Pro 14 M4", price:153500},
+{category:"MACBOOK", name:"MacBook Pro 14", price:153500},
 
-{category:"IPAD", name:"iPad Pro 13 M4", price:103000},
+{category:"IPAD", name:"iPad Pro 13", price:103000},
 
 {category:"APPLE WATCH", name:"Apple Watch Ultra 3", price:60500},
 
@@ -61,11 +61,42 @@ let data = [
 
 {category:"АКСЕССУАРЫ APPLE", name:"Magic Mouse 3", price:8500},
 
-{category:"ДРУГИЕ СМАРТФОНЫ", name:"iPhone 17 Pro Max 256", price:121500},
+{category:"ДРУГИЕ СМАРТФОНЫ", name:"iPhone 17 Pro Max", price:121500},
 
-{category:"ПЫЛЕСОСЫ", name:"Dyson V15 Detect", price:49000},
+{category:"ПЫЛЕСОСЫ", name:"Dyson V15", price:49000},
 
-{category:"ИГРОВЫЕ КОНСОЛИ", name:"PlayStation 5 Slim", price:43500}
+{category:"ИГРОВЫЕ КОНСОЛИ", name:"PS5 Slim", price:43500}
+];
+
+function showMenu(){
+let categories = [...new Set(data.map(x=>x.category))];
+let html = "";
+
+categories.forEach(cat=>{
+html += `<button onclick="openCat('${cat}')">${cat}</button>`;
+});
+
+document.getElementById("menu").innerHTML = html;
+}
+
+function openCat(cat){
+let items = data.filter(x=>x.category==cat);
+let html = `<button onclick="back()">⬅ Назад</button>`;
+
+items.forEach(i=>{
+html += `<div class="item">${i.name} — ${i.price}р</div>`;
+});
+
+document.getElementById("content").innerHTML = html;
+document.getElementById("menu").style.display="none";
+}
+
+function back(){
+document.getElementById("menu").style.display="block";
+document.getElementById("content").innerHTML="";
+}
+
+showMenu();
 
 </script>
 
