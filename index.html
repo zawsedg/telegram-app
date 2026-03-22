@@ -48,6 +48,7 @@ async function loadData() {
     });
 
     data = newData;
+
     if(currentCategory === null) showCategories();
     else if(currentSubcategory === null) showSubcategories(currentCategory);
     else showProducts(currentCategory, currentSubcategory);
@@ -65,7 +66,7 @@ function showCategories() {
     html += `<button onclick="showSubcategories('${cat}')">${cat}</button>`;
   });
   document.getElementById("menu").innerHTML = html;
-  document.getElementById("menu").style.display = "flex";
+  document.getElementById("menu").style.display="flex";
   document.getElementById("content").innerHTML = "";
 }
 
@@ -78,7 +79,7 @@ function showSubcategories(cat) {
     html += `<button onclick="showProducts('${cat}','${sub}')">${sub}</button>`;
   });
   document.getElementById("menu").innerHTML = html;
-  document.getElementById("menu").style.display = "flex";
+  document.getElementById("menu").style.display="flex";
   document.getElementById("content").innerHTML = "";
 }
 
@@ -88,17 +89,17 @@ function showProducts(cat, sub) {
   let html = `<button class="back-btn" onclick="showSubcategories('${cat}')">⬅ Назад</button>`;
   items.forEach(i => {
     const finalPrice = Math.round(i.price * 1.10);
-    const stockClass = i.inStock === "yes" ? "inStock-yes" : "inStock-no";
-    const stockText = i.inStock === "yes" ? "В наличии" : "Нет в наличии";
+    const stockClass = i.inStock==="yes"?"inStock-yes":"inStock-no";
+    const stockText = i.inStock==="yes"?"В наличии":"Нет в наличии";
     html += `<div class="item"><span>${i.name} — ${finalPrice}р</span><span class="${stockClass}">${stockText}</span></div>`;
   });
   document.getElementById("content").innerHTML = html;
-16:09
-document.getElementById("menu").style.display = "none";
+16:12
+document.getElementById("menu").style.display="none";
 }
 
 loadData();
-setInterval(loadData, 50000);
+setInterval(loadData,50000);
 </script>
 
 </body>
