@@ -22,60 +22,66 @@ button:hover { background:#00f0ff; color:#000; transform:scale(1.05); }
 
 <div id="menu"></div>
 <div id="content"></div>
-
 <script>
+
 let data = [];
 
-async function loadData() {
-  try {
-    const res = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTzzPZY3u78bCNtoJwAfRnDFKsLT2RiD5F4xxTx1Rn1Ycfx_XaY81ffIX5jGJEWoek5zc8MjX0SmjCx/pub?gid=0&single=true&output=csv");
-    const text = await res.text();
-    
-    const rows = text.split(/\r?\n/).slice(1);
-    const newData = [];
-    rows.forEach(r => {
-      if(!r) return;
-      const cols = r.split(",");
-      if(cols.length < 4) return;
-      const category = cols[0].trim();
-      const name = cols[1].trim();
-      const price = parseFloat(cols[2].trim()) || 0;
-      const inStock = cols[3].trim().toLowerCase() === "да" ? "yes" : "no";
-      newData.push({ category, name, price, inStock });
-    });
-    data = newData;
-    showCategories();
-  } catch(e) {
-    console.error("Ошибка загрузки таблицы:", e);
-  }
+fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTzzPZY3u78bCNtoJwAfRnDFKsLT2RiD5F4xxTx1Rn1Ycfx_XaY81ffIX5jGJEWoek5zc8MjX0SmjCx/pub?gid=0&single=true&output=csv")
+.then(res => res.text())
+.then(text => {
+
+let rows = text.split("\n").slice(1);
+
+rows.forEach(r=>{
+let [name, price, stock] = r.split(",");
+
+data.push({
+name: name,
+price: parseInt(price),
+stock: stock
+});
+});
+
+renderList(data);
+
+});
+
+function renderList(list){
+let html = `<input placeholder="Поиск..." oninput="search(this.value)">`;
+
+list.forEach((item, index)=>{
+html += `
+<div class="item" onclick="openItem(${index})">
+${item.name} — ${item.price}р
+</div>`;
+});
+
+document.getElementById("content").innerHTML = html;
 }
 
-function showCategories() {
-  const categories = [...new Set(data.map(x=>x.category))];
-  let html = "";
-  categories.forEach(cat => {
-    html += `<button onclick="showProducts('${cat}')">${cat}</button>`;
-  });
-  document.getElementById("menu").innerHTML = html;
-  document.getElementById("content").innerHTML = "";
-  document.getElementById("menu").style.display="flex";
+function search(q){
+q = q.toLowerCase();
+let filtered = data.filter(x=>x.name.toLowerCase().includes(q));
+renderList(filtered);
 }
 
-function showProducts(cat) {
-  const items = data.filter(x=>x.category===cat);
-  let html = `<button class="back-btn" onclick="showCategories()">⬅ Назад</button>`;
-  items.forEach(i => {
-    const finalPrice = Math.round(i.price * 1.10);
-    const stockClass = i.inStock==="yes"?"inStock-yes":"inStock-no";
-    const stockText = i.inStock==="yes"?"В наличии":"Нет в наличии";
-    html += `<div class="item"><span>${i.name} — ${finalPrice}р</span><span class="${stockClass}">${stockText}</span></div>`;
-  });
-  document.getElementById("content").innerHTML = html;
-  document.getElementById("menu").style.display="none";
+function openItem(i){
+let item = data[i];
+
+let html = `
+<button onclick="renderList(data)">⬅ Назад</button>
+<h2>${item.name}</h2>
+<p>Цена: ${item.price}р</p>
+<p>${item.stock}</p>
+
+<a href="https://t.me/mismailz" target="_blank">
+<button>Купить</button>
+</a>
+`;
+
+document.getElementById("content").innerHTML = html;
 }
 
-loadData();
-setInterval(loadData,50000);
 </script>
 
 </body>
