@@ -37,7 +37,7 @@ let [name, price, stock] = r.split(",");
 
 data.push({
 name: name,
-price: parseInt(price),
+price: Math.round((parseFloat(price) || 0) * 1.075),
 stock: stock
 });
 });
