@@ -19,8 +19,14 @@ button:hover { background:#00f0ff; color:#000; transform:scale(1.05); }
 <body>
 
 <header>SiriusTech</header>
-
 <div id="menu"></div>
+
+<div style="text-align:center; margin:10px;">
+<input id="searchInput" placeholder="Поиск..." 
+oninput="search(this.value)"
+style="padding:10px; width:250px; border-radius:8px; border:none;">
+</div>
+
 <div id="content"></div>
 <script>
 
@@ -47,11 +53,11 @@ renderList(data);
 });
 
 function renderList(list){
-let html = `<input placeholder="Поиск..." oninput="search(this.value)">`;
+let html = "";
 
-list.forEach((item, index)=>{
+list.forEach((item)=>{
 html += `
-<div class="item" onclick="openItem(${index})">
+<div class="item" onclick="openItem('${item.name}')">
 ${item.name} — ${item.price}р
 </div>`;
 });
@@ -65,8 +71,8 @@ let filtered = data.filter(x=>x.name.toLowerCase().includes(q));
 renderList(filtered);
 }
 
-function openItem(i){
-let item = data[i];
+function openItem(name){
+let item = data.find(x => x.name === name);
 
 let html = `
 <button onclick="renderList(data)">⬅ Назад</button>
