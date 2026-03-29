@@ -101,21 +101,15 @@ rows.forEach(r => {
 
 if(!r.trim()) return;
 
-// ищем цену
-let priceMatch = r.match(/(\d{3,6})\s*р?/);
+let cols = r.split(",");
 
-if(!priceMatch) return;
+let name = cols[0];
+let price = parseInt(cols[1]); // колонка с ценой
 
-let price = parseInt(priceMatch[1]);
+if(!price) return;
 
-// наценка 8%
+// наценка
 price = Math.round(price * 1.08);
-
-// название
-let name = r.replace(priceMatch[0], "").trim();
-
-// чистка
-name = name.replace(/,+/g," ");
 
 data.push({name, price});
 
