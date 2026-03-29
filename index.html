@@ -3,44 +3,92 @@
 <head>
 <meta charset="UTF-8">
 <title>SiriusTech</title>
+
 <style>
-body { margin:0; font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg,#0b0f1a,#1c1f2a); color:#fff; }
-header { text-align:center; padding:30px 10px; font-size:40px; font-weight:bold; color:#00f0ff; text-shadow:0 0 10px #00f0ff,0 0 20px #00f0ff; }
-#menu { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; margin:20px; }
-button { padding:15px 25px; font-size:18px; border:none; border-radius:10px; background:#222; color:#fff; cursor:pointer; transition:0.3s; flex:1 1 150px; max-width:200px; }
-button:hover { background:#00f0ff; color:#000; transform:scale(1.05); }
-#content { display:flex; flex-direction:column; align-items:center; gap:15px; margin:20px; }
-.item { background:#111; padding:15px 20px; border-radius:10px; width:300px; box-shadow:0 0 10px #00f0ff33; display:flex; justify-content:space-between; align-items:center; }
-.inStock-yes { color:#00ff90; font-weight:bold; }
-.inStock-no { color:#ff4040; font-weight:bold; }
-.back-btn { background:#444; width:100px; margin-bottom:10px; }
+body {
+margin:0;
+font-family: Arial;
+background:#0b0f1a;
+color:white;
+text-align:center;
+}
+
+header {
+font-size:32px;
+padding:20px;
+color:#00f0ff;
+}
+
+input {
+padding:12px;
+width:80%;
+max-width:350px;
+border-radius:10px;
+border:none;
+margin:15px;
+font-size:16px;
+}
+
+#products {
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:12px;
+}
+
+.item {
+background:#111;
+padding:15px;
+border-radius:10px;
+width:320px;
+cursor:pointer;
+box-shadow:0 0 10px #00f0ff33;
+}
+
+.item:hover {
+transform:scale(1.02);
+}
+
+.in { color:#00ff90; }
+.out { color:#ff4040; }
+
+button {
+padding:12px 20px;
+border:none;
+border-radius:10px;
+background:#00f0ff;
+cursor:pointer;
+font-size:16px;
+}
 </style>
 </head>
+
 <body>
 
 <header>SiriusTech</header>
-<div id="menu"></div>
 
-<div style="text-align:center; margin:10px;">
-<input id="searchInput" placeholder="Поиск..." 
-oninput="search(this.value)"
-style="padding:10px; width:250px; border-radius:8px; border:none;">
-</div>
+<input placeholder="Поиск..." oninput="search(this.value)">
 
-<div id="content"></div>
+<div id="products"></div>
+
 <script>
 
 let data = [];
 
-fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTzzPZY3u78bCNtoJwAfRnDFKsLT2RiD5F4xxTx1Rn1Ycfx_XaY81ffIX5jGJEWoek5zc8MjX0SmjCx/pub?output=csv")
+// 🔴 ВСТАВЬ СВОЮ ССЫЛКУ CSV
+const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzzPZY3u78bCNtoJwAfRnDFKsLT2RiD5F4xxTx1Rn1Ycfx_XaY81ffIX5jGJEWoek5zc8MjX0SmjCx/pub?output=csv";
+
+fetch(url)
 .then(res => res.text())
 .then(text => {
 
 let rows = text.split("\n").slice(1);
 
-rows.forEach(r=>{
+rows.forEach(r => {
+
 if(!r) return;
 
+// поддержка , и ;
 let cols = r.includes(";") ? r.split(";") : r.split(",");
 
 let name = cols[0];
@@ -50,50 +98,57 @@ let stock = cols[2];
 if(!name) return;
 
 data.push({
-name: name,
-price: Math.round((parseFloat(price) || 0) * 1.075),
-stock: stock
+name: name.trim(),
+price: Math.round((parseFloat(price) || 0) * 1.08),
+stock: stock ? stock.trim() : "Есть"
 });
 });
 
-renderList(data);
+render(data);
 
 });
 
-function renderList(list){
+function render(list){
 let html = "";
 
-list.forEach((item)=>{
+list.forEach(item => {
 html += `
-<div class="item" onclick="openItem('${item.name}')">
-${item.name} — ${item.price}р
+<div class="item" onclick="openItem('${item.name.replace(/'/g,"")}')">
+<b>${item.name}</b><br>
+${item.price.toLocaleString()} ₽
 </div>`;
 });
 
-document.getElementById("content").innerHTML = html;
+document.getElementById("products").innerHTML = html;
 }
 
 function search(q){
 q = q.toLowerCase();
-let filtered = data.filter(x=>x.name.toLowerCase().includes(q));
-renderList(filtered);
+let filtered = data.filter(x => x.name.toLowerCase().includes(q));
+render(filtered);
 }
 
 function openItem(name){
+
 let item = data.find(x => x.name === name);
 
-let html = `
-<button onclick="renderList(data)">⬅ Назад</button>
-<h2>${item.name}</h2>
-<p>Цена: ${item.price}р</p>
-<p>${item.stock}</p>
+let statusClass = item.stock.toLowerCase().includes("нет") ? "out" : "in";
 
-<a href="https://t.me/zawsedg" target="_blank">
+let text = encodeURIComponent(`Здравствуйте, хочу купить:\n${item.name}\nЦена: ${item.price}₽`);
+
+document.getElementById("products").innerHTML = `
+<button onclick="render(data)">⬅ Назад</button>
+
+<h2>${item.name}</h2>
+
+<p><b>${item.price.toLocaleString()} ₽</b></p>
+
+<p class="${statusClass}">${item.stock}</p>
+
+<a href="https://t.me/mismailz?text=${text}" target="_blank">
 <button>Купить</button>
 </a>
 `;
-
-document.getElementById("content").innerHTML = html;
 }
 
 </script>
