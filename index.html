@@ -8,15 +8,20 @@
 body {
 margin:0;
 font-family: Arial;
-background:#0b0f1a;
+background: linear-gradient(135deg,#0b0f1a,#1c1f2a);
 color:white;
-text-align:center;
 }
 
 header {
-font-size:32px;
+text-align:center;
+font-size:36px;
 padding:20px;
 color:#00f0ff;
+}
+
+.search {
+text-align:center;
+margin:15px;
 }
 
 input {
@@ -25,28 +30,34 @@ width:80%;
 max-width:350px;
 border-radius:10px;
 border:none;
-margin:15px;
 font-size:16px;
 }
 
 #products {
 display:flex;
-flex-direction:column;
-align-items:center;
-gap:12px;
+flex-wrap:wrap;
+justify-content:center;
+gap:15px;
+padding:10px;
 }
 
-.item {
+.card {
 background:#111;
 padding:15px;
-border-radius:10px;
-width:320px;
+border-radius:12px;
+width:250px;
 cursor:pointer;
-box-shadow:0 0 10px #00f0ff33;
+box-shadow:0 0 15px #00f0ff33;
+transition:0.3s;
 }
 
-.item:hover {
-transform:scale(1.02);
+.card:hover {
+transform:scale(1.05);
+}
+
+.price {
+color:#00f0ff;
+font-weight:bold;
 }
 
 .in { color:#00ff90; }
@@ -59,6 +70,7 @@ border-radius:10px;
 background:#00f0ff;
 cursor:pointer;
 font-size:16px;
+margin-top:10px;
 }
 </style>
 </head>
@@ -67,7 +79,9 @@ font-size:16px;
 
 <header>SiriusTech</header>
 
+<div class="search">
 <input placeholder="Поиск..." oninput="search(this.value)">
+</div>
 
 <div id="products"></div>
 
@@ -75,7 +89,6 @@ font-size:16px;
 
 let data = [];
 
-// 🔴 ВСТАВЬ СВОЮ ССЫЛКУ CSV
 const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzzPZY3u78bCNtoJwAfRnDFKsLT2RiD5F4xxTx1Rn1Ycfx_XaY81ffIX5jGJEWoek5zc8MjX0SmjCx/pub?output=csv";
 
 fetch(url)
@@ -88,7 +101,6 @@ rows.forEach(r => {
 
 if(!r) return;
 
-// поддержка , и ;
 let cols = r.includes(";") ? r.split(";") : r.split(",");
 
 let name = cols[0];
@@ -102,20 +114,30 @@ name: name.trim(),
 price: Math.round((parseFloat(price) || 0) * 1.08),
 stock: stock ? stock.trim() : "Есть"
 });
+
 });
 
 render(data);
 
+})
+.catch(err=>{
+document.getElementById("products").innerHTML = "Ошибка загрузки таблицы";
 });
 
 function render(list){
+
+if(list.length === 0){
+document.getElementById("products").innerHTML = "Нет товаров";
+return;
+}
+
 let html = "";
 
 list.forEach(item => {
 html += `
-<div class="item" onclick="openItem('${item.name.replace(/'/g,"")}')">
-<b>${item.name}</b><br>
-${item.price.toLocaleString()} ₽
+<div class="card" onclick="openItem('${item.name.replace(/'/g,"")}')">
+<div>${item.name}</div>
+<div class="price">${item.price.toLocaleString()} ₽</div>
 </div>`;
 });
 
@@ -139,15 +161,21 @@ let text = encodeURIComponent(`Здравствуйте, хочу купить:\
 document.getElementById("products").innerHTML = `
 <button onclick="render(data)">⬅ Назад</button>
 
-<h2>${item.name}</h2>
+<h2 style="text-align:center">${item.name}</h2>
 
-<p><b>${item.price.toLocaleString()} ₽</b></p>
+<p style="text-align:center; font-size:20px;">
+<b>${item.price.toLocaleString()} ₽</b>
+</p>
 
-<p class="${statusClass}">${item.stock}</p>
+<p class="${statusClass}" style="text-align:center;">
+${item.stock}
+</p>
 
-<a href="https://t.me/mismailz?text=${text}" target="_blank">
+<div style="text-align:center;">
+<a href="https://t.me/zawsedg?text=${text}" target="_blank">
 <button>Купить</button>
 </a>
+</div>
 `;
 }
 
